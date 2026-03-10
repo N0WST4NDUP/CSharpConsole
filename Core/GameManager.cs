@@ -5,20 +5,17 @@ namespace Core
     public class GameManager
     {
         private static GameManager _instance;
-        public static GameManager Instance => _instance ??= new GameManager();
+        public static GameManager Instance => _instance ??= new();
 
-        private GameSystem _system;
-
-        private GameManager()
-        {
-            _system = new();
-        }
+        Map map = new Map().Initialize(20, 15);
 
         public void Run()
         {
-            while (_system.IsRunning)
+            Map map = new();
+            map.Initialize(40, 30);
+            while (GameSystem.Instance.IsRunning)
             {
-                if (_system.Wait) continue;
+                if (GameSystem.Instance.Wait) continue;
 
                 HandleInput();
                 Update();
@@ -33,7 +30,7 @@ namespace Core
 
             switch (key)
             {
-                case ConsoleKey.Escape: _system.Stop(); return;
+                case ConsoleKey.Escape: GameSystem.Instance.Stop(); return;
             }
         }
 
@@ -42,7 +39,6 @@ namespace Core
             // 게임 업데이트
         }
 
-        private void Render() => _system.Renderer();
-
+        private void Render() => GameSystem.Instance.Renderer();
     }
 }

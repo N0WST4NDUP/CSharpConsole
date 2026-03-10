@@ -8,6 +8,9 @@ namespace Core
         private const string k_title = "MyConsoleGame";
         private const double k_fps = 30f;
 
+        private static GameSystem _instance;
+        public static GameSystem Instance => _instance ??= new();
+
         public bool IsRunning { get; private set; } = true;
         public long LastTick = 0;
         public bool Wait
