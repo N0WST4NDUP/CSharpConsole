@@ -1,3 +1,5 @@
+using System;
+
 namespace Core
 {
     public class GameManager
@@ -16,18 +18,13 @@ namespace Core
         {
             while (_system.IsRunning)
             {
-                long currentTick = Environment.TickCount;
-                if (currentTick - lastTick < waitTick) continue;
-                lastTick = currentTick;
+                if (_system.Wait) continue;
 
                 HandleInput();
                 Update();
                 Render();
             }
         }
-
-        private long lastTick = 0;
-        private const float waitTick = 1000f / 30f;  // 30 FPS
 
         private void HandleInput()
         {
