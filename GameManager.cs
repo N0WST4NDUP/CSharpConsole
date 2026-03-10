@@ -1,4 +1,3 @@
-using System.Text;
 
 public class GameManager
 {
@@ -12,6 +11,7 @@ public class GameManager
         _system = new();
     }
 
+    public void HelloWorld() { Console.WriteLine("Hello World"); }
     public void Run()
     {
         while (_system.IsRunning)
@@ -45,11 +45,6 @@ public class GameManager
         // 게임 업데이트
     }
 
-    private void Render()
-    {
-        // 화면 업데이트
-        // HTML Div 쌓는 방식으로 렌더링 하면 효율적일듯?
-        Console.SetCursorPosition(0, 0); // 이거 이용해서 원하는 부분만 렌더링도 가능할듯
-        Console.WriteLine("Hello, C# Console!");
-    }
+    private void Render() => _system.Renderer();
+
 }
