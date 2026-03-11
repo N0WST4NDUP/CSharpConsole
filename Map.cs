@@ -1,42 +1,46 @@
 using System;
+using System.Text;
 using Core;
 
-public class Map
+namespace Snake
 {
-    private char[,] _map;
-    private Position _player;
-
-    public Map()
+    public class Map
     {
-        GameSystem.Instance.AddRederingProcess(PrintMap);
-    }
+        private char[,] _map;
 
-    public Map Initialize(int width, int height)
-    {
-        _map = new char[height, width];
-        for (int i = 0; i < height; i++)
+        public Map()
         {
-            for (int j = 0; j < width; j++)
+            GameSystem.Instance.AddRederingProcess(PrintMap);
+        }
+
+        public void Initialize(int width, int height)
+        {
+            _map = new char[height, width];
+            for (int y = 0; y < height; y++)
             {
-                if (j == 0 || j == width - 1) _map[i, j] = '#';
-                else _map[i, j] = ' ';
+                for (int x = 0; x < width; x++)
+                {
+                    if (y == 0 || y == height - 1 || x == 0 || x == width - 1) _map[y, x] = '#';
+                    else _map[y, x] = ' ';
+                }
             }
         }
-        _player = new Position(_map.GetLength(0) - 1, _map.GetLength(1) / 2);
 
-        return this;
-    }
-
-    private void PrintMap()
-    {
-        for (int i = 0; i < _map.GetLength(0); i++)
+        public void PrintMap(Position p)
         {
-            for (int j = 0; j < _map.GetLength(1); j++)
+            StringBuilder sb = new StringBuilder();
+
+            for (int y = 0; y < _map.GetLength(0); y++)
             {
-                // if (i == _player.Y && j == _player.X) Console.Write('@');
-                Console.Write(_map[i, j]);
+                sb.Clear();
+                for (int x = 0; x < _map.GetLength(1); x++)
+                {
+                    sb.Append(' ');
+                    sb.Append((p.X != x || p.Y != y) ? _map[y, x] : '@');
+                }
+                string row = sb.ToString().PadRight(_map.GetLength(1));
+                Console.WriteLine(row);
             }
-            Console.WriteLine();
         }
     }
 }

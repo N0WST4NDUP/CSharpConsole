@@ -1,10 +1,8 @@
-public class Position
+namespace Snake
 {
-    public int X;
-    public int Y;
-    public Position(int x, int y)
+    public class Position
     {
-        X = x;
-        Y = y;
+        public int X { get; set; } = 10;
+        public int Y { get; set; } = 10;
     }
 }
