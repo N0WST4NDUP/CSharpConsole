@@ -1,12 +1,16 @@
 using System;
 using System.Text;
+using Snake;
 
 namespace Core
 {
     public class GameSystem
     {
-        private const string k_title = "MyConsoleGame";
+        private const string k_title = "SnakeGame";
         private const double k_fps = 30f;
+
+        private static GameSystem _instance;
+        public static GameSystem Instance => _instance ??= new();
 
         public bool IsRunning { get; private set; } = true;
         public long LastTick = 0;
@@ -20,7 +24,7 @@ namespace Core
                 return wait;
             }
         }
-        public Render Renderer { get; private set; } = () =>
+        public Render Renderer { get; private set; } = (p) =>
         {
             Console.SetCursorPosition(0, 0);
         };
@@ -41,6 +45,6 @@ namespace Core
 
         public void AddRederingProcess(Render rp) => Renderer += rp;
 
-        public delegate void Render();
+        public delegate void Render(Position p);
     }
 }
