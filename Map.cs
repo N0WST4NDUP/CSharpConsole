@@ -6,40 +6,39 @@ namespace Snake
 {
     public class Map
     {
-        private char[,] _map;
+        private MapState[,] _map;
 
-        public Map()
-        {
-            GameSystem.Instance.AddRederingProcess(PrintMap);
-        }
+        public void Subscribe() => GameManager.Instance.Render += PrintMap;
+        public void UnSubscribe() => GameManager.Instance.Render -= PrintMap;
 
         public void Initialize(int width, int height)
         {
-            _map = new char[height, width];
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    if (y == 0 || y == height - 1 || x == 0 || x == width - 1) _map[y, x] = '#';
-                    else _map[y, x] = ' ';
-                }
-            }
+            _map = new MapState[height, width];
+            _map[5, 5] = MapState.Snake;
         }
 
-        public void PrintMap(Position p)
+        private void PrintMap(Position p)
         {
-            StringBuilder sb = new StringBuilder();
-
             for (int y = 0; y < _map.GetLength(0); y++)
             {
-                sb.Clear();
                 for (int x = 0; x < _map.GetLength(1); x++)
                 {
-                    sb.Append(' ');
-                    sb.Append((p.X != x || p.Y != y) ? _map[y, x] : '@');
+                    Console.Write(' ');
+                    switch (_map[y, x])
+                    {
+                        case MapState.None when Console.ForegroundColor != ConsoleColor.White:
+                            Console.ForegroundColor = ConsoleColor.White;
+                            break;
+                        case MapState.Snake when Console.ForegroundColor != ConsoleColor.DarkGreen:
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            break;
+                        case MapState.Apple when Console.ForegroundColor != ConsoleColor.DarkRed:
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            break;
+                    }
+                    Console.Write('●');
                 }
-                string row = sb.ToString().PadRight(_map.GetLength(1));
-                Console.WriteLine(row);
+                Console.WriteLine();
             }
         }
     }

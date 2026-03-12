@@ -18,16 +18,12 @@ namespace Core
         {
             get
             {
-                var now = Environment.TickCount;
+                var now = Environment.TickCount64;
                 var wait = now - LastTick < 1000f / k_fps;
                 if (!wait) LastTick = now;
                 return wait;
             }
         }
-        public Render Renderer { get; private set; } = (p) =>
-        {
-            Console.SetCursorPosition(0, 0);
-        };
 
         public GameSystem()
         {
@@ -43,8 +39,5 @@ namespace Core
             Console.CursorVisible = true;
         }
 
-        public void AddRederingProcess(Render rp) => Renderer += rp;
-
-        public delegate void Render(Position p);
     }
 }

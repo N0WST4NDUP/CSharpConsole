@@ -8,22 +8,34 @@ namespace Snake
         private static GameManager _instance;
         public static GameManager Instance => _instance ??= new();
 
-        private readonly int _width = 22, _height = 22;
+        private readonly int _width = 10, _height = 10;
 
         private Map _map = new();
         private Position _snake = new();
 
-        public void Run()
+        public event Action<Map> Update;
+        public event Action<Position> Render;
+
+        private GameManager()
         {
             _map.Initialize(_width, _height);
 
+            Render += (p) => Console.SetCursorPosition(0, 0);
+        }
+
+        public void Run()
+        {
+            _map.Subscribe();
+
             while (GameSystem.Instance.IsRunning)
             {
+                HandleInput();
+
                 if (GameSystem.Instance.Wait) continue;
 
-                HandleInput();
-                Update();
-                Render();
+                Update?.Invoke(_map);
+                Render?.Invoke(_snake);
+                Console.WriteLine(_snake._direction);
             }
         }
 
@@ -34,19 +46,13 @@ namespace Snake
 
             switch (key)
             {
-                case ConsoleKey.LeftArrow: _snake.X = Math.Max(_snake.X - 1, 1); return;
-                case ConsoleKey.UpArrow: _snake.Y = Math.Max(_snake.Y - 1, 1); return;
-                case ConsoleKey.RightArrow: _snake.X = Math.Min(_snake.X + 1, _width - 2); return;
-                case ConsoleKey.DownArrow: _snake.Y = Math.Min(_snake.Y + 1, _height - 2); return;
+
+                case ConsoleKey.UpArrow: _snake.ChangeDirection(Position.Direction.Up); return;
+                case ConsoleKey.DownArrow: _snake.ChangeDirection(Position.Direction.Down); return;
+                case ConsoleKey.LeftArrow: _snake.ChangeDirection(Position.Direction.Left); return;
+                case ConsoleKey.RightArrow: _snake.ChangeDirection(Position.Direction.Right); return;
                 case ConsoleKey.Escape: GameSystem.Instance.Stop(); return;
             }
         }
-
-        private void Update()
-        {
-            // 게임 업데이트
-        }
-
-        private void Render() => GameSystem.Instance.Renderer(_snake);
     }
 }
