@@ -26,6 +26,7 @@ namespace Snake
         public void Run()
         {
             _map.Subscribe();
+            _snake.Subscribe();
 
             while (GameSystem.Instance.IsRunning)
             {
@@ -35,7 +36,6 @@ namespace Snake
 
                 Update?.Invoke(_map);
                 Render?.Invoke(_snake);
-                Console.WriteLine(_snake._direction);
             }
         }
 

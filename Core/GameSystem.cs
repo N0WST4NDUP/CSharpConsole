@@ -7,7 +7,7 @@ namespace Core
     public class GameSystem
     {
         private const string k_title = "SnakeGame";
-        private const double k_fps = 30f;
+        private const double k_fps = 2;
 
         private static GameSystem _instance;
         public static GameSystem Instance => _instance ??= new();
@@ -19,7 +19,7 @@ namespace Core
             get
             {
                 var now = Environment.TickCount64;
-                var wait = now - LastTick < 1000f / k_fps;
+                var wait = now - LastTick < 1000 / k_fps;
                 if (!wait) LastTick = now;
                 return wait;
             }

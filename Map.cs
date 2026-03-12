@@ -8,14 +8,19 @@ namespace Snake
     {
         private MapState[,] _map;
 
-        public void Subscribe() => GameManager.Instance.Render += PrintMap;
-        public void UnSubscribe() => GameManager.Instance.Render -= PrintMap;
+        public int MaxY => _map.GetLength(0) - 1;
+        public int MaxX => _map.GetLength(1) - 1;
 
         public void Initialize(int width, int height)
         {
             _map = new MapState[height, width];
-            _map[5, 5] = MapState.Snake;
         }
+
+        public MapState GetPointState((int x, int y) point) => GetPointState(point.x, point.y);
+        public MapState GetPointState(int x, int y) => _map[y, x];
+
+        public void SetPointState((int x, int y) point, MapState state) => SetPointState(point.x, point.y, state);
+        public void SetPointState(int x, int y, MapState state) => _map[y, x] = state;
 
         private void PrintMap(Position p)
         {
@@ -40,6 +45,15 @@ namespace Snake
                 }
                 Console.WriteLine();
             }
+        }
+
+        public void Subscribe()
+        {
+            GameManager.Instance.Render += PrintMap;
+        }
+        public void UnSubscribe()
+        {
+            GameManager.Instance.Render -= PrintMap;
         }
     }
 }
