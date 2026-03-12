@@ -7,7 +7,7 @@ namespace Core
     public class GameSystem
     {
         private const string k_title = "SnakeGame";
-        private const double k_fps = 2;
+        private const double k_fps = 3;
 
         private static GameSystem _instance;
         public static GameSystem Instance => _instance ??= new();

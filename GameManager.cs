@@ -12,6 +12,7 @@ namespace Snake
 
         private Map _map = new();
         private Position _snake = new();
+        private Apple _apple = new();
 
         public event Action<Map> Update;
         public event Action<Position> Render;
@@ -27,6 +28,7 @@ namespace Snake
         {
             _map.Subscribe();
             _snake.Subscribe();
+            _apple.Subscribe();
 
             while (GameSystem.Instance.IsRunning)
             {
