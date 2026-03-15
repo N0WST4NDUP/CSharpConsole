@@ -5,6 +5,11 @@ using SnakeGame.Maps;
 
 namespace SnakeGame.Characters
 {
+    /// <summary>
+    /// Snake의 위치 정보를 다루는 클래스<br/>
+    /// 기본적인 위치 정보와 방향, 그리고 노출된 메서드로 구성<br/>
+    /// TODO - 일단 방향 비교가 썩 맘에 들진 않음;;
+    /// </summary>
     public class Position
     {
         private (int X, int Y) _head = (5, 5);

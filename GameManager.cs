@@ -11,7 +11,9 @@ namespace SnakeGame
         private static GameManager _instance;
         public static GameManager Instance => _instance ??= new();
 
-        private Map _map = new DefaultMap();
+        public Map test;
+
+        private Map _map = new();
         private Position _snake = new();
         private Apple _apple = new();
 
@@ -20,7 +22,7 @@ namespace SnakeGame
 
         private GameManager()
         {
-            _map.Initialize(10, 10);
+            _map.Initialize(10);
 
             Render += (p) => Console.SetCursorPosition(0, 0);
         }

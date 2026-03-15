@@ -4,24 +4,32 @@ using SnakeGame.Characters;
 
 namespace SnakeGame.Maps
 {
+    /// <summary>
+    /// TODO - 일단 기본적인 DefaultMap이자 부모가 될 클래스<br/>
+    /// 나중에 게임 모드 추가할 때 상속 구현
+    /// </summary>
     public class Map
     {
         protected MapState[,] _map;
-        protected List<(int x, int y)> _available = new();
+        protected readonly List<(int x, int y)> _available = new();
 
         public int MaxY => _map.GetLength(0) - 1;
         public int MaxX => _map.GetLength(1) - 1;
         public int EmptyCount => _available.Count;
 
-        public void Initialize(int width, int height)
+        /// <summary>
+        /// TODO - 재사용 가능한 Initializer.<br/>
+        /// 나중에 옵션으로 조정할 수 있게 수정
+        /// </summary>
+        /// <param name="size">정사각형 크기</param>
+        public virtual void Initialize(int size)
         {
-            _map = new MapState[height, width];
+            _map = new MapState[size, size];
             _available.Clear();
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < _map.GetLength(0); y++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < _map.GetLength(1); x++)
                 {
-                    _map[y, x] = MapState.None;
                     _available.Add((x, y));
                 }
             }
