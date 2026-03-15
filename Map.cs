@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Core;
+using SnakeGame.Characters;
 
-namespace Snake
+namespace SnakeGame.Maps
 {
     public class Map
     {
-        private MapState[,] _map;
-        private HashSet<(int x, int y)> _available = new();
+        protected MapState[,] _map;
+        protected List<(int x, int y)> _available = new();
 
         public int MaxY => _map.GetLength(0) - 1;
         public int MaxX => _map.GetLength(1) - 1;
@@ -48,14 +47,12 @@ namespace Snake
 
         public (int x, int y)? GetAvailablePoint(int count)
         {
-            foreach (var point in _available)
-            {
-                if (count-- == 0) return point;
-            }
-            return null;
+            if (count == 0) return null;
+
+            return _available[count];
         }
 
-        private void PrintMap(Position p)
+        protected virtual void PrintMap(Position p)
         {
             for (int y = 0; y < _map.GetLength(0); y++)
             {

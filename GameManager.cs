@@ -1,16 +1,17 @@
 using System;
 using Core;
+using SnakeGame.Characters;
+using SnakeGame.Items;
+using SnakeGame.Maps;
 
-namespace Snake
+namespace SnakeGame
 {
     public class GameManager
     {
         private static GameManager _instance;
         public static GameManager Instance => _instance ??= new();
 
-        private readonly int _width = 10, _height = 10;
-
-        private Map _map = new();
+        private Map _map = new DefaultMap();
         private Position _snake = new();
         private Apple _apple = new();
 
@@ -19,7 +20,7 @@ namespace Snake
 
         private GameManager()
         {
-            _map.Initialize(_width, _height);
+            _map.Initialize(10, 10);
 
             Render += (p) => Console.SetCursorPosition(0, 0);
         }
@@ -36,7 +37,8 @@ namespace Snake
 
                 if (GameSystem.Instance.Wait) continue;
 
-                Update?.Invoke(_map);
+                if (GameSystem.Instance.UpdateCycle) Update?.Invoke(_map);
+
                 Render?.Invoke(_snake);
             }
         }
